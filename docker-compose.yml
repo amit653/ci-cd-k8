@@ -1,0 +1,8 @@
+services:
+  pg-app:
+   command: python app.py
+   build:
+     context: .
+     dockerfile: Dockerfile
+   volumes:
+     - ./my-app:/app
