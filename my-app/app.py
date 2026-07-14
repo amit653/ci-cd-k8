@@ -4,9 +4,8 @@ DB_CONFIG = {
     'dbname': 'student',
     'user': 'postgres',
     'password': 'postgres',
-    'host': '192.168.29.225',
     #'host': 'pg_test-postgres-1',
-    #'host': 'x.x.xx.xx',
+    'host': 'x.x.xx.xx',
     'port': 5432,
     'connect_timeout': 5  # Tell psycopg2 to wait up to 5s per attempt
 }
