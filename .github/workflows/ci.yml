@@ -10,7 +10,12 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
-        with:
-          path: k8s
+
       - name: dry run
-        run: kubectl apply --dry-run=server -f $GITHUB_WORKSPACE/k8s/ -n dev-test
+        working-directory: /home/vagrant/python-pg-connection
+        run: |
+          kubectl apply --dry-run=server -f k8s/db.yml -n dev-test
+          kubectl apply --dry-run=server -f k8s/pg-svc.yml -n dev-test
+          kubectl apply --dry-run=server -f k8s/app-nodeport-svc.yml -n dev-test
+          kubectl apply --dry-run=server -f k8s/app.yml -n dev-test
+          kubectl apply --dry-run=server -f k8s/app-svc.yml -n dev-test
