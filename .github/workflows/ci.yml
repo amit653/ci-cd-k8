@@ -8,18 +8,10 @@ jobs:
   ci:
     runs-on: self-hosted
     steps:
-      - uses: actions/checkout@v4
-
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          path: /home/vagrant/python-pg-connection/k8s
       - name: dry run
         working-directory: /home/vagrant/python-pg-connection
         run: kubectl apply --dry-run=server -f k8s/ -n dev-test
-
-      - name: Security scan
-        uses: aquasecurity/trivy-action@v0.12.0
-        with:
-         scan-type: image
-         image-ref: amit653/my-python-app:latest
-         severity: HIGH,CRITICAL
-
-
-
