@@ -11,7 +11,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          path: /home/vagrant/python-pg-connection/k8s
+          path: k8s
       - name: dry run
-        working-directory: /home/vagrant/python-pg-connection
+        working-directory: $GITHUB_WORKSPACE
         run: kubectl apply --dry-run=server -f k8s/ -n dev-test
