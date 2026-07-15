@@ -14,16 +14,17 @@ jobs:
         working-directory: /home/vagrant/python-pg-connection
         run: |
           kubectl get pods -n dev-test
-          #kubectl apply -f k8s/db.yml -n dev-test
-          #kubectl apply -f k8s/pg-svc.yml -n dev-test
-          #kubectl apply -f k8s/app-nodeport-svc.yml -n dev-test
-          #kubectl rollout status deployment/postgres-deploy -n dev-test
+          kubectl apply -f k8s/db.yml -n dev-test
+          kubectl apply -f k8s/pg-svc.yml -n dev-test
+          kubectl apply -f k8s/app-nodeport-svc.yml -n dev-test
+          kubectl rollout status deployment/postgres-deploy -n dev-test
 
       # 2. Deploy Python app
       - name: Apply Python manifests
         working-directory: /home/vagrant/python-pg-connection
         run: |
-          #kubectl apply -f k8s/app.yml -n dev-test
-          #kubectl apply -f k8s/app-svc.yml -n dev-test
-          #kubectl rollout status deployment/python-app -n dev-test
+          kubectl apply -f k8s/app.yml -n dev-test
+          kubectl apply -f k8s/app-svc.yml -n dev-test
+          kubectl rollout status deployment/python-app -n dev-test
+          kubectl get all -n dev-test
 
