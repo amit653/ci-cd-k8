@@ -1,30 +1,25 @@
-name: Deploy to Kubernetes
+name: CI-K8 manifest check
 on:
   push:
     branches: [ "main" ]
+  pull_request:
+
 jobs:
-  deploy:
-    runs-on: ['self-hosted', 'Linux', 'X64']
+  ci:
+    runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      # 1. Deploy Postgres
-      - name: Apply Postgres manifests
+      - name: dry run
         working-directory: /home/vagrant/python-pg-connection
-        run: |
-          kubectl get pods -n dev-test
-          kubectl apply -f k8s/db.yml -n dev-test
-          kubectl apply -f k8s/pg-svc.yml -n dev-test
-          kubectl apply -f k8s/app-nodeport-svc.yml -n dev-test
-          kubectl rollout status deployment/postgres-deploy -n dev-test
+        run: kubectl apply --dry-run=server -f k8s/ -n dev-test
 
-      # 2. Deploy Python app
-      - name: Apply Python manifests
-        working-directory: /home/vagrant/python-pg-connection
-        run: |
-          kubectl apply -f k8s/app.yml -n dev-test
-          kubectl apply -f k8s/app-svc.yml -n dev-test
-          kubectl rollout status deployment/python-app -n dev-test
-          kubectl get all -n dev-test
+      - name: Security scan
+        uses: aquasecurity/trivy-action@v0.12.0
+        with:
+         scan-type: image
+         image-ref: amit653/my-python-app:latest
+         severity: HIGH,CRITICAL
+
+
 
