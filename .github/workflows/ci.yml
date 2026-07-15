@@ -1,4 +1,4 @@
-name: CI-K8 manifest check
+name: CI manifest check
 on:
   push:
     branches: [ "main" ]
@@ -13,4 +13,4 @@ jobs:
         with:
           path: k8s
       - name: dry run
-        run: kubectl apply --dry-run=server -f $GITHIB_WORKSPACE/k8s/ -n dev-test
+        run: kubectl apply --dry-run=server -f $GITHUB_WORKSPACE/k8s/ -n dev-test
