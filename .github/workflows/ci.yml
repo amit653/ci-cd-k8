@@ -13,5 +13,4 @@ jobs:
         with:
           path: k8s
       - name: dry run
-        working-directory: $GITHUB_WORKSPACE
-        run: kubectl apply --dry-run=server -f k8s/ -n dev-test
+        run: kubectl apply --dry-run=server -f $GITHIB_WORKSPACE/k8s/ -n dev-test
