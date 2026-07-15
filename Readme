@@ -1,0 +1,19 @@
+# Test for python pg connectivity
+create docker image for python-app and pushed it to docker hub
+docker tag ci-cd-k8-pg-app:latest <user>/my-python-app:latest
+docker push <user>/my-python-app:latest
+
+k get svc
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+postgres              ClusterIP   10.100.93.229   <none>        5432/TCP         9m48s
+python-app            ClusterIP   10.99.253.24    <none>        5000/TCP         9m32s
+python-nodeport-svc   NodePort    10.110.67.27    <none>        5000:30081/TCP   9m47s
+
+-- Connectivity check from outside k8 cluster using clusterIP svc
+k port-forward svc/python-app -n dev-test 5000:5000   , from another terminal  curl http://0.0.0.0:5000
+Connected to Postgres! Version: ('PostgreSQL 16.14 16.14 (Debian 16.14-1.pgdg13+1)
+
+--connectivity using nodeport
+from local browser  curl http://<nodeip>:30081  Or from another termimal curl http://0.0.0.0:30081
+Connected to Postgres! Version: ('PostgreSQL 16.14 (Debian 16.14-1.pgdg13+1)
+
